@@ -16,6 +16,7 @@ from utils.styles import get_custom_css
 from components.navigation import (
     render_sidebar_branding,
     render_sidebar_navigation,
+    render_navbar,
     render_top_header,
     render_voice_section,
     get_current_page
@@ -55,11 +56,13 @@ def main():
     
     # Render top header
     render_top_header()
+
+    render_navbar(get_current_page())
     
-    # Configure sidebar
-    with st.sidebar:
-        render_sidebar_branding()
-        render_sidebar_navigation(get_current_page())
+    # # Configure sidebar
+    # with st.sidebar:
+    #     render_sidebar_branding()
+    #     render_navbar(get_current_page())
     
     # Get current page from URL parameters or default to dashboard
     current_page = get_current_page()

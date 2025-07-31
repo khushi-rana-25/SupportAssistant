@@ -47,9 +47,30 @@ def render_sidebar_navigation(active_page):
         st.query_params["nav"] = "dashboard"
         st.rerun()
 
+def render_navbar(active_page):
+    """Renders a horizontal navbar at the top of the main page"""
+    nav_items = [
+        ("📊 Dashboard", "dashboard"),
+        ("🏘️ Community", "community"),
+        ("📖 Documentation", "documentation"),
+        ("📞 Contact", "contact"),
+        ("🚪 Sign Out", "signout"),
+    ]
+    cols = st.columns(len(nav_items))
+    for idx, (label, nav_key) in enumerate(nav_items):
+        if cols[idx].button(label, key=f"nav_{nav_key}"):
+            if nav_key == "signout":
+                # Clear session state and redirect to dashboard
+                for key in list(st.session_state.keys()):
+                    del st.session_state[key]
+                st.query_params["nav"] = "dashboard"
+            else:
+                st.query_params["nav"] = nav_key
+            st.rerun()
+
 def get_current_page():
     """Get current page from URL query or default"""
-    return st.query_params.get("nav", "dashboard")
+    return st.query_params.get("nav", ["dashboard"])[0]
 
 def render_top_header():
     """Renders a simple top header"""
