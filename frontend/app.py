@@ -7,6 +7,7 @@ import streamlit as st
 from datetime import datetime
 import sys
 import os
+from pages.manager_home import community_page
 
 # Add the current directory to the path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
