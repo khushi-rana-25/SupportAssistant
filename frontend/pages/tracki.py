@@ -24,20 +24,7 @@ def tracking_page():
         examples="Say things like: \"Track my complaint COMP-0001\", \"What's the status of my service request\", etc."
     )
     
-    # Instructions
-    st.markdown("""
-    ### How to use Voice Assistant:
-    1. **Click the voice button** to activate Omnidim.io integration
-    2. **Speak clearly** about what you want to track
-    3. **Provide the request ID** or ask about recent requests
-    4. **Listen** to the status updates
     
-    ### Example voice commands:
-    - "Track my complaint COMP-0001"
-    - "What's the status of my service request SRV-0002"
-    - "Show me all my recent requests"
-    - "Update on my plumbing service request"
-    """)
     
     # Show all requests summary
     if st.session_state.complaints or st.session_state.service_requests:

@@ -22,20 +22,16 @@ def render_sidebar_navigation(active_page):
     """Renders navigation using Streamlit buttons"""
     st.markdown("### Navigation")
     
-    if st.button("📊 Dashboard", key="nav_dashboard", use_container_width=True):
-        st.query_params["nav"] = "dashboard"
+    if st.button("📝 Complaint", key="nav_complaint", use_container_width=True):
+        st.query_params["nav"] = "complaint"
         st.rerun()
     
-    if st.button("🏘️ Community", key="nav_community", use_container_width=True):
-        st.query_params["nav"] = "community"
+    if st.button("📦 Tracking", key="nav_tracking", use_container_width=True):
+        st.query_params["nav"] = "tracking"
         st.rerun()
     
-    if st.button("📖 Documentation", key="nav_docs", use_container_width=True):
-        st.query_params["nav"] = "documentation"
-        st.rerun()
-    
-    if st.button("📞 Contact", key="nav_contact", use_container_width=True):
-        st.query_params["nav"] = "contact"
+    if st.button("💬 Feedback", key="nav_feedback", use_container_width=True):
+        st.query_params["nav"] = "feedback"
         st.rerun()
     
     st.markdown("---")
@@ -50,27 +46,19 @@ def render_sidebar_navigation(active_page):
 def render_navbar(active_page):
     """Renders a horizontal navbar at the top of the main page"""
     nav_items = [
-        ("📊 Dashboard", "dashboard"),
-        ("🏘️ Community", "community"),
-        ("📖 Documentation", "documentation"),
-        ("📞 Contact", "contact"),
-        ("🚪 Sign Out", "signout"),
+        ("📝 Complaint", "complaint"),
+        ("📦 Tracking", "tracking"),
+        ("💬 Feedback", "feedback"),
     ]
     cols = st.columns(len(nav_items))
     for idx, (label, nav_key) in enumerate(nav_items):
         if cols[idx].button(label, key=f"nav_{nav_key}"):
-            if nav_key == "signout":
-                # Clear session state and redirect to dashboard
-                for key in list(st.session_state.keys()):
-                    del st.session_state[key]
-                st.query_params["nav"] = "dashboard"
-            else:
-                st.query_params["nav"] = nav_key
+            st.query_params["nav"] = nav_key
             st.rerun()
 
 def get_current_page():
-    """Get current page from URL query or default"""
-    return st.query_params.get("nav", ["dashboard"])[0]
+    """Get current page from URL query or default to 'dashboard'"""
+    return st.query_params.get("nav", ["dashboard"])
 
 def render_top_header():
     """Renders a simple top header"""
