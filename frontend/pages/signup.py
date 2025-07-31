@@ -125,7 +125,7 @@ def main():
                         st.session_state.page = "user_home"
                     elif user.get('role') == 'community_manager':
                         st.session_state.page = "manager_home"
-                    st.experimental_rerun()
+                    st.rerun()
                 else:
                     st.error("Registration failed. Please try again.")
     

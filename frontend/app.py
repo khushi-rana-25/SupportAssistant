@@ -28,7 +28,6 @@ from pages.tracki import tracking_page
 from pages.feedback import feedback_page
 from pages.documentation import documentation_page
 from pages.contact import contact_page
-from pages.community import community_page
 
 # Page configuration
 st.set_page_config(

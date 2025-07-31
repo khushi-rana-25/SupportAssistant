@@ -7,6 +7,40 @@ def get_custom_css():
     """Returns the custom CSS styles for the ResiVoice application"""
     return """
     <style>
+        body, .stApp {
+            background: linear-gradient(135deg, #10141a 60%, #0a232e 100%) !important;
+            color: #e0e0e0 !important;
+        }
+        .stApp {
+            min-height: 100vh;
+            background-attachment: fixed;
+            box-shadow: 0 0 40px #00d4aa33;
+        }
+        section[data-testid="stSidebar"] {
+            background: #181c20 !important;
+            color: #e0e0e0 !important;
+            border-right: 2px solid #00d4aa22;
+        }
+        h1, h2, h3, h4 {
+            color: #00d4aa !important;
+            text-shadow: 0 0 8px #00d4aa55;
+        }
+        .stButton>button {
+            background: #181c20;
+            color: #00d4aa;
+            border: 1.5px solid #00d4aa;
+            border-radius: 8px;
+            box-shadow: 0 0 8px #00d4aa44;
+            transition: 0.2s;
+        }
+        .stButton>button:hover {
+            background: #00d4aa;
+            color: #181c20;
+            box-shadow: 0 0 16px #00d4aa99;
+        }
+    </style>
+""" + """
+    <style>
         /* Import Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
         
@@ -561,4 +595,4 @@ def get_custom_css():
             background: linear-gradient(135deg, #00b8d4, #00d4aa) !important;
         }
     </style>
-    """ 
+""" 
