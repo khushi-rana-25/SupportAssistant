@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.auth_utils import register_user, check_auth_status
 
-def main():
+def signup_page():
     """Sign up page main function"""
     
     # Check if user is already authenticated
@@ -145,4 +145,4 @@ def main():
             st.rerun()
 
 if __name__ == "__main__":
-    main() 
+    signup_page()

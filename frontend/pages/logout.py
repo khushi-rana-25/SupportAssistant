@@ -1,4 +1,5 @@
 import streamlit as st
+from utils.auth_utils import logout_user
 
 def logout_popup():
     """Renders a simple logout confirmation popup"""
@@ -20,7 +21,6 @@ def logout_popup():
         
         with col2:
             if st.button("Logout", key="confirm_logout", type="primary"):
-                from utils.auth_utils import logout_user
                 if logout_user():
                     st.success("Successfully logged out!")
                     st.session_state.show_logout_popup = False

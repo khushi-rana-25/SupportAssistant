@@ -12,11 +12,11 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # Import custom styles and components
-from utils.styles import get_custom_css
+from utils.ui_utils import load_css
+from utils.auth_utils import check_auth_status
 from components.navigation import (
     render_navbar,
     render_top_header,
-    render_voice_section,
     get_current_page
 )
 
@@ -24,6 +24,9 @@ from components.navigation import (
 from pages.complaint_page import complaint_page
 from pages.tracki import tracking_page
 from pages.feedback import feedback_page
+from pages.signin import signin_page
+from pages.signup import signup_page
+from pages.logout import logout_page
 
 # Page configuration
 st.set_page_config(
@@ -34,7 +37,7 @@ st.set_page_config(
 )
 
 # Apply custom CSS
-st.markdown(get_custom_css(), unsafe_allow_html=True)
+st.markdown(load_css(), unsafe_allow_html=True)
 
 # Initialize session state
 if 'complaints' not in st.session_state:
@@ -48,34 +51,36 @@ if 'feedback' not in st.session_state:
 
 def main():
     """Main application function"""
-    
-    render_top_header()
-    
-    render_navbar(get_current_page())
-    
-    # Check if logout popup is active - if so, don't render main content but allow popup to complete
-    if st.session_state.get('show_logout_popup', False):
-        # Add a small delay to ensure popup renders completely
-        st.empty()
-        return
-    
+
+    is_authenticated = check_auth_status()
     current_page = get_current_page()
-    
-    # Page routing
-    if current_page == "dashboard" or current_page == "complaint":
-        complaint_page()
-    elif current_page == "tracking":
-        tracking_page()
-    elif current_page == "feedback":
-        feedback_page()
-    elif current_page == "logout":
-        # Clear session state and redirect to dashboard
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.query_params["nav"] = "dashboard"
-        st.rerun()
+
+    if is_authenticated:
+        # Show header and navbar for authenticated users
+        render_top_header()
+        render_navbar(current_page)
+
+        # Handle logout popup
+        if st.session_state.get('show_logout_confirm', False):
+            logout_page()
+            return
+
+        # Routing for authenticated users
+        if current_page == "complaint":
+            complaint_page()
+        elif current_page == "tracking":
+            tracking_page()
+        elif current_page == "feedback":
+            feedback_page()
+        else:
+            complaint_page()
     else:
-        complaint_page()  # Default page
+        # Routing for unauthenticated users
+        if current_page == "signup":
+            signup_page()
+        else:
+            # Default to signin page
+            signin_page()
 
 if __name__ == "__main__":
-    main() 
+    main()

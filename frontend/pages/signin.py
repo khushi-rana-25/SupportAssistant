@@ -65,7 +65,9 @@ def signin_page():
     """, unsafe_allow_html=True)
     
     # Use Streamlit button instead of HTML anchor
+
     if st.button("Create Account", use_container_width=True, type="secondary"):
+        from pages.signup import signup_page  # Import moved here to avoid circular import
         st.session_state.page = "signup"
         st.rerun()
 

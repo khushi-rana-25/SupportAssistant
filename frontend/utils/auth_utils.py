@@ -1,6 +1,9 @@
 import requests
 import streamlit as st
 
+from pages.signup import signup_page
+from pages.signin import signin_page
+
 # API base URL
 API_BASE_URL = "http://localhost:5001/api"
 
