@@ -52,4 +52,17 @@ def register_user(name, email, password, role):
 
 def check_auth_status():
     """Check if user is authenticated"""
-    return 'user' in st.session_state and st.session_state.user is not None 
+    return 'user' in st.session_state and st.session_state.user is not None
+
+def logout_user():
+    """Logout user and clear session state"""
+    # Clear user session data
+    if 'user' in st.session_state:
+        del st.session_state.user
+    if 'token' in st.session_state:
+        del st.session_state.token
+    
+    # Reset page to signin
+    st.session_state.page = "signin"
+    
+    return True 

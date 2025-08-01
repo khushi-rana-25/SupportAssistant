@@ -61,7 +61,8 @@ def get_current_page():
     return st.query_params.get("nav", ["dashboard"])
 
 def render_top_header():
-    """Renders a simple top header"""
+    """Renders a simple top header with top padding"""
+    st.markdown('<div style="padding-top: 32px;"></div>', unsafe_allow_html=True)
     st.markdown("## 🏠 ResiVoice - Your Voice, Our Solution")
     st.markdown("---")
 
