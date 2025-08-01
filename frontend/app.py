@@ -7,7 +7,7 @@ import streamlit as st
 from datetime import datetime
 import sys
 import os
-from pages.manager_home import community_page
+from pages.manager_home import manager_home
 
 # Add the current directory to the path for imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -79,7 +79,7 @@ def main():
     elif current_page == "contact":
         contact_page()
     elif current_page == "community":
-        community_page()
+        manager_home()
     elif current_page == "logout":
         # Clear session state and redirect to dashboard
         for key in list(st.session_state.keys()):

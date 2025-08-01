@@ -317,7 +317,19 @@ def manager_home():
             st.rerun()
     
         # Display upcoming events (events with future dates)
-        upcoming_events = [event for event in st.session_state.upcoming_events if event['date'] > datetime.now()]
+        # Convert all dates to datetime for consistent comparison
+        current_datetime = datetime.now()
+        upcoming_events = []
+        for event in st.session_state.upcoming_events:
+            event_date = event['date']
+            # Convert date to datetime if it's a date object
+            if hasattr(event_date, 'date'):  # It's a datetime object
+                event_datetime = event_date
+            else:  # It's a date object
+                event_datetime = datetime.combine(event_date, datetime.min.time())
+            
+            if event_datetime > current_datetime:
+                upcoming_events.append(event)
         
         if upcoming_events:
             for event in upcoming_events:
