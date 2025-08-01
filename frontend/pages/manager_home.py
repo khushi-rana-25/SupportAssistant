@@ -75,28 +75,51 @@ def manager_home():
             box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
         }
         
-        .share-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: rgba(0, 212, 170, 0.2);
-            border: 1px solid #00d4aa;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 14px;
-            color: #00d4aa;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .share-btn:hover {
-            background: rgba(0, 212, 170, 0.3);
-            transform: scale(1.1);
-        }
+                 .share-btn {
+             position: absolute;
+             top: 1rem;
+             right: 3.5rem;
+             background: rgba(0, 212, 170, 0.2);
+             border: 1px solid #00d4aa;
+             border-radius: 50%;
+             width: 35px;
+             height: 35px;
+             font-size: 14px;
+             color: #00d4aa;
+             cursor: pointer;
+             transition: all 0.3s ease;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+         
+         .share-btn:hover {
+             background: rgba(0, 212, 170, 0.3);
+             transform: scale(1.1);
+         }
+         
+         .delete-btn {
+             position: absolute;
+             top: 1rem;
+             right: 1rem;
+             background: rgba(255, 107, 107, 0.2);
+             border: 1px solid #ff6b6b;
+             border-radius: 50%;
+             width: 35px;
+             height: 35px;
+             font-size: 14px;
+             color: #ff6b6b;
+             cursor: pointer;
+             transition: all 0.3s ease;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+         
+         .delete-btn:hover {
+             background: rgba(255, 107, 107, 0.3);
+             transform: scale(1.1);
+         }
         
         /* Modal Styling */
         .modal-overlay {
@@ -190,6 +213,8 @@ def manager_home():
 
     # Header
     st.markdown('<h1 style="color: #00d4aa; text-align: center;">👨‍💼 Manager Dashboard</h1>', unsafe_allow_html=True)
+    
+
     
     # Initialize session state for upcoming events
     if 'upcoming_events' not in st.session_state:
@@ -333,18 +358,31 @@ def manager_home():
         
         if upcoming_events:
             for event in upcoming_events:
-                st.markdown(f"""
-                    <div class="event-card">
-                        <button class="share-btn" onclick="openShareModal('{event['id']}')" title="Share Event">📤</button>
-                        <div style="flex: 1;">
-                            <h3 style="color: #00d4aa; margin: 0 0 0.5rem 0;">{event['title']}</h3>
-                            <p style="color: #e0e0e0; margin: 0 0 1rem 0;">{event['description']}</p>
-                            <div style="color: #888; font-size: 0.9rem;">
-                                📅 {event['date'].strftime('%B %d, %Y')} • 📍 {event['location']} • 🏷️ {event['type']}
+                # Create a container for each event
+                with st.container():
+                    col1, col2 = st.columns([0.9, 0.1])
+                    
+                    with col1:
+                        st.markdown(f"""
+                            <div class="event-card">
+                                <button class="share-btn" onclick="openShareModal('{event['id']}')" title="Share Event">🔗</button>
+                                <div style="flex: 1;">
+                                    <h3 style="color: #00d4aa; margin: 0 0 0.5rem 0;">{event['title']}</h3>
+                                    <p style="color: #e0e0e0; margin: 0 0 1rem 0;">{event['description']}</p>
+                                    <div style="color: #888; font-size: 0.9rem;">
+                                        📅 {event['date'].strftime('%B %d, %Y')} • 📍 {event['location']} • 🏷️ {event['type']}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                """, unsafe_allow_html=True)
+                        """, unsafe_allow_html=True)
+                    
+                    with col2:
+                        # Delete button using Streamlit's native button
+                        if st.button("🗑️", key=f"delete_{event['id']}", help="Delete this event"):
+                            # Remove the event from the list
+                            st.session_state.upcoming_events = [e for e in st.session_state.upcoming_events if e['id'] != event['id']]
+                            st.success(f"Event '{event['title']}' deleted successfully!")
+                            st.rerun()
             st.markdown("</div></div>", unsafe_allow_html=True)
         else:
             st.markdown("</div></div>", unsafe_allow_html=True)
@@ -566,12 +604,12 @@ def manager_home():
             };
         }
         
-        // Close modal when clicking outside
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal-overlay')) {
-                closeModal();
-            }
-        });
+                 // Close modal when clicking outside
+         document.addEventListener('click', function(e) {
+             if (e.target.classList.contains('modal-overlay')) {
+                 closeModal();
+             }
+         });
         </script>
     """, unsafe_allow_html=True)
 
