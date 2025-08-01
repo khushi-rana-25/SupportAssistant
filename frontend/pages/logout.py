@@ -22,6 +22,7 @@ def logout_popup():
         with col2:
             if st.button("Logout", key="confirm_logout", type="primary"):
                 if logout_user():
+                    st.session_state.page = "signin"  # Redirect to signin page
                     st.success("Successfully logged out!")
                     st.session_state.show_logout_popup = False
                     st.rerun()

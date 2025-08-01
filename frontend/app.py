@@ -26,7 +26,7 @@ from pages.tracki import tracking_page
 from pages.feedback import feedback_page
 from pages.signin import signin_page
 from pages.signup import signup_page
-from pages.logout import logout_page
+# from pages.logout import logout_page
 
 # Page configuration
 st.set_page_config(
