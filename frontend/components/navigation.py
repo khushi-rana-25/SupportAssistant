@@ -11,50 +11,32 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from utils.omnidim_client import create_omnidim_manager, handle_voice_command
-
-def render_sidebar_branding():
-    """Renders the ResiVoice branding in the sidebar"""
-    st.markdown("### 🏠 ResiVoice")
-    st.markdown("*Your Voice, Our Solution*")
-    st.markdown("---")
-
-def render_sidebar_navigation(active_page):
-    """Renders navigation using Streamlit buttons"""
-    st.markdown("### Navigation")
-    
-    if st.button("📝 Complaint", key="nav_complaint", use_container_width=True):
-        st.query_params["nav"] = "complaint"
-        st.rerun()
-    
-    if st.button("📦 Tracking", key="nav_tracking", use_container_width=True):
-        st.query_params["nav"] = "tracking"
-        st.rerun()
-    
-    if st.button("💬 Feedback", key="nav_feedback", use_container_width=True):
-        st.query_params["nav"] = "feedback"
-        st.rerun()
-    
-    st.markdown("---")
-    
-    if st.button("🚪 Sign Out", key="nav_signout", use_container_width=True):
-        # Clear session state and redirect to dashboard
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.query_params["nav"] = "dashboard"
-        st.rerun()
+from pages.logout import logout_popup
 
 def render_navbar(active_page):
     """Renders a horizontal navbar at the top of the main page"""
     nav_items = [
-        ("📝 Complaint", "complaint"),
-        ("📦 Tracking", "tracking"),
-        ("💬 Feedback", "feedback"),
+        ("Complaint", "complaint"),
+        ("Tracking", "tracking"),
+        ("Feedback", "feedback"),
+        ("Logout", "logout"),
     ]
+    
+    # Create columns for nav items
     cols = st.columns(len(nav_items))
+    
+    # Render navigation items
     for idx, (label, nav_key) in enumerate(nav_items):
         if cols[idx].button(label, key=f"nav_{nav_key}"):
-            st.query_params["nav"] = nav_key
+            if nav_key == "logout":
+                st.session_state.show_logout_popup = True
+            else:
+                st.query_params["nav"] = nav_key
             st.rerun()
+    
+    # Show logout popup if triggered
+    if st.session_state.get('show_logout_popup', False):
+        logout_popup()
 
 def get_current_page():
     """Get current page from URL query or default to 'dashboard'"""
@@ -63,7 +45,7 @@ def get_current_page():
 def render_top_header():
     """Renders a simple top header with top padding"""
     st.markdown('<div style="padding-top: 32px;"></div>', unsafe_allow_html=True)
-    st.markdown("## 🏠 ResiVoice - Your Voice, Our Solution")
+    st.markdown("## ResiVoice")
     st.markdown("---")
 
 def render_voice_section(title="🎤 Voice Assistant", 

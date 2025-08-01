@@ -30,7 +30,7 @@ st.set_page_config(
     page_title="ResiVoice",
     page_icon="",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Apply custom CSS
@@ -53,6 +53,12 @@ def main():
     
     render_navbar(get_current_page())
     
+    # Check if logout popup is active - if so, don't render main content but allow popup to complete
+    if st.session_state.get('show_logout_popup', False):
+        # Add a small delay to ensure popup renders completely
+        st.empty()
+        return
+    
     current_page = get_current_page()
     
     # Page routing
@@ -62,8 +68,6 @@ def main():
         tracking_page()
     elif current_page == "feedback":
         feedback_page()
-    elif current_page == "community":
-        community_page()
     elif current_page == "logout":
         # Clear session state and redirect to dashboard
         for key in list(st.session_state.keys()):
